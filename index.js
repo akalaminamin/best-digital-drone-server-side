@@ -65,6 +65,22 @@ async function run() {
       res.json(result);
     });
 
+    // update status
+    app.put("/orders/:id", async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id:ObjectId(id)};
+      const status = req.body.status;
+      const options = {upset:true}
+      const updateDoc ={
+        $set:{
+          status:"Shipped"
+        }
+      }
+      const result = await droneOrderCollection.updateOne(filter, updateDoc, options)
+      console.log(result)
+      res.json(result)
+    })
+
     // Add new service in database
     app.post("/addProduct", async (req, res) => {
       const cursor = req.body;
